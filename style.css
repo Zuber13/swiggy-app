@@ -1,8 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=ABeeZee&family=Black+And+White+Picture&family=Dosis:wght@200&family=Poppins:wght@100;200&family=Roboto:wght@300&display=swap');
+
+
 html,body{
 	margin: 0;
 	padding: 0;
+	overflow: auto;
 }
 
 *{
 	box-sizing: border-box;
+	/* font-family: 'ABeeZee', sans-serif; */
+    font-family: 'Black And White Picture', sans-serif;
+	/* font-family: 'Dosis', sans-serif; */
+	font-family: 'Poppins', sans-serif;
+	/* font-family: 'Roboto', sans-serif; */
 }
+
+.wrapper{
+	width: 100%;
+}
+
+.container{
+	width: 100%;
+	margin: 0 auto;
+	position: relative;
+}
+
+.container .list-menu{
+	align-items: center;
+	background: #fff;
+	width: 39%;
+	height: 100vh;
+	/* padding: 1rem; */
+	border-right: 2px solid #ddd;
+	max-width: 250px;
+	position: fixed;
+}
+
+ul{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	/* margin: 2rem 0; */
+}
+
+li{
+	width: 100%;
+	padding: 1rem;
+}
+
+ul li:first-child{
+	background-color: orange;
+}
+
+li a{
+	font-weight:bold;
+	color: rgba(0.0.0.9);
+	text-decoration: none;
+}
+
+  .food-catagory{
+	width: 59%;
+	margin: 0 23rem;
+	padding: 3rem 1rem;
+	/* display: inline-block; */
+	/* background-color: #ddd; */
+	/* float: right; 	 */
+  }
+
+  .food-catagory .box , .load-more{
+	  display: inline-block !important;
+  }
+
+  .box , .load-more{
+	  width: 200px;
+	  height: 200px;
+	  border: 2px solid orange;
+	  margin: 5px;
+  }
+
+
+  .title{
+	  color: #839390;
+  }
+
+  .load-more{
+	  position: relative;
+  }
+
+  .load-more span{
+	color: red;
+	position: relative;
+	top: 80px;
+	left: 60px;
+  }
