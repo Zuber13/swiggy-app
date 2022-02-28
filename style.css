@@ -49,9 +49,6 @@ li{
 	padding: 1rem;
 }
 
-ul li:first-child{
-	background-color: orange;
-}
 
 li a{
 	font-weight:bold;
@@ -68,15 +65,16 @@ li a{
 	/* float: right; 	 */
   }
 
-  .food-catagory .box , .load-more{
+  .food-catagory .box{
 	  display: inline-block !important;
   }
 
-  .box , .load-more{
-	  width: 200px;
-	  height: 200px;
-	  border: 2px solid orange;
+  .box{
+	  width: 220px;
+	  height: 220px;
+	  /* border: 2px solid orange; */
 	  margin: 5px;
+	  text-align: center;
   }
 
 
@@ -84,13 +82,32 @@ li a{
 	  color: #839390;
   }
 
-  .load-more{
-	  position: relative;
+  .rating{
+	background: lightgreen;
+    padding: 1px 4px;
+    border-radius: 5px;
+	color: #fff;
+	font-weight: bold;
   }
 
-  .load-more span{
-	color: red;
-	position: relative;
-	top: 80px;
-	left: 60px;
-  }
+  .food-info{
+	display: flex;
+    justify-content: space-around;
+}
+
+.viwe{
+	width: 50%;
+	margin: auto;
+	color: skyblue;
+	font-weight: bold;
+	visibility: hidden;
+}
+
+img{
+	object-fit: cover;
+	/* background-size: cover; */
+}
+
+li.active{
+	background: orange;
+}

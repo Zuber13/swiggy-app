@@ -12,47 +12,44 @@
 	<div class="wrapper">
 		<div class="container">
 			<div class="list-menu">
-				<ul>
-					<li><a href="">Menu</a></li>
-					<li><a href="#">Popular brand</a></li>
-					<li><a href="#">Offer Near you</a></li>
-					<li><a href="#">Express Delivery</a></li>
-					<li><a href="#">Gourmet</a></li>
-					<li><a href="#">Only On swiggy</a></li>
-					<li><a href="#">See All</a></li>
+				<ul id="list-items">
+					<li class="tab active"><a href="">Menu</a></li>
+					<li class="tab"><a href="#popular-catagory">Popular brand</a></li>
+					<li class="tab"><a href="#offer-near-you">Offer Near you</a></li>
+					<li class="tab"><a href="#express-delivery">Express Delivery</a></li>
+					<li class="tab"><a href="#gourmets">Gourmet</a></li>
+					<li class="tab"><a href="#">Only On swiggy</a></li>
+					<li class="tab"><a href="#">See All</a></li>
 				</ul>
 			</div>
 			<div class="food-catagory">
-              <div class="popular-brand" id="pop">
-				  <h2 class="title">Popular Catagory</h2>
+              <div class="popular-brand">
+				  <h2 class="title" id="popular-catagory">Popular Catagory</h2>
+				  <div id="popular"></div>
 				</div>
 				<hr>
 				<div class="offer-near-you">
-				  <h2 class="title">Offer Near You</h2>
-				  <div class="box"></div>
-				  <div class="box"></div>
-				  <div class="box"></div>
-				  <div class="box"></div>
-				  <div class="box"></div>
-				  <div class="box"></div>
+				  <h2 class="title" id="offer-near-you">Offer Near You</h2>
+				  <div id="offer"></div>
 				</div>
 				<hr>
 				<div class="express-delivery">
-					<h2 class="title">Express Delivery</h2>
-					<div class="box"></div>
-					<div class="box"></div>
-					<div class="box"></div>
-					<div class="box"></div>
-					<div class="box"></div>
+					<h2 class="title" id="express-delivery">Express Delivery</h2>
+					<div id="expres"></div>
+					<!-- <div class="box"></div> -->
+					<!-- <div class="box"></div> -->
+					<!-- <div class="box"></div> -->
+					<!-- <div class="box"></div> -->
 			  </div>
 			  <hr>
               <div class="gourmet">
-					<h2 class="title">Gourmet</h2>
-					<div class="box"></div>
-					<div class="box"></div>
-					<div class="box"></div>
-					<div class="box"></div>
-					<div class="box"></div>
+					<h2 class="title" id="gourmets">Gourmet</h2>
+					<div id="gourmet"></div>
+					<!-- <div class="box"></div> -->
+					<!-- <div class="box"></div> -->
+					<!-- <div class="box"></div> -->
+					<!-- <div class="box"></div> -->
+					<!-- <div class="box"></div> -->
 			  </div>
 			</div>
 		</div>
