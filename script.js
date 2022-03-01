@@ -10,7 +10,7 @@ const imgs = [
 	"./images/photo-1511690743698-d9d85f2fbf38 (1).jfif"
 ];
 
-fetch(food_api)
+     fetch(food_api)
 	.then(res => res.json())
 	.then(data => renderData(data));
 
@@ -46,23 +46,32 @@ var gourmets = document.getElementById('gourmet');
 
 
 function renderHTML(data) {
-	//  console.log(data)
 	var output = '';
-	for (var i = 0; i <= 5; i++) {
-		output += `<div class="box">
-	               <img src=${imgs[i]} width="100%" height="120px" display="block"/>
-				   <br>
-	              <small class="recipe-name"><b>${data[i].name}</b></small>
-				  <div class="food-info">
-				  <small class="rating"> &#8902 ${data[i].ratings || 4.3}</small>
-				  <small class="deliver-time"> - ${data[i].delivery_time}</small>
-				  <small class="food-price">  - ₹${data[i].price_for_two} For two </small>
+	for (var i = 0; i < 5; i++) {
+		console.log()
+		output += `<div class="parent">
+					<div class="box">
+	                  <img src=${imgs[i]} width="100%" height="120px" display="block"/>
+				      <br>
+	                  <small class="recipe-name"><b>${data[i].name}</b></small>
+				      <br>
+				      <small>${data[i].food_types.length > 3 ? data[i].food_types.slice(1,3).join(" ")  : data[i].food_types}</small>
+				      <div class="food-info">
+				      <small class="rating"> &#8902 ${data[i].ratings || 4.3}</small>
+				      <small class="deliver-time"> - ${data[i].delivery_time}</small>
+				      <small class="food-price">  - ₹${data[i].price_for_two} For two </small>
+				      </div>
+				      <hr>
+					</div>
+				    <div class="viwe"><b>Quick view</b></div>		
 				  </div>
-				  <hr>
-				  <div class="viwe">QUICK VIWE</div>		
-				 </div>
 				 `;
 	}
+
+	var more = document.createElement('div');
+	more.setAttribute('class','box');
+	more.textContent = "Load More";
+	pop.appendChild(more);
 	pop.innerHTML = output;
 	offer.innerHTML = output;
 	expres.innerHTML = output;
@@ -75,4 +84,13 @@ var tabs = document.querySelectorAll('.tab');
 tabs.forEach(tab => tab.addEventListener("click",function(){
 	tabs.forEach(tab => tab.classList.remove('active'));
 		tab.classList.add('active');
-}))
+		scrollEvnt(tab);
+}));
+
+
+function scrollEvnt(tab){
+  var elem = document.querySelector(tab.children[0].hash);
+  elem.offsetTop = 0;
+}
+
+
