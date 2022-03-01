@@ -78,15 +78,16 @@ li a{
 
 
 .box{
-	  width: 220px;
-	  height: 220px;
-	  margin:20px;
-  }
+	width: 220px;
+	height: 220px;
+	margin:20px;
+}
 
-  .parent:hover{
-	  border: 2px solid #ddd;
-	  transition: all 1s;
-	  transform: scale(1.2);
+.parent:hover{
+	border: 2px solid #ddd;
+	transition: all 1s;
+	box-shadow: 2px 2px 3px #ddd;
+	transform: scale(1.2);
   }
 
   .parent:hover .viwe{
