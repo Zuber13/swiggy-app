@@ -68,13 +68,30 @@ li a{
   .food-catagory{
 }
 
-.parent{
+#popular , #expres{
+	position: relative;
+}
+
+#offer{
+  position: relative;
+}
+
+.recipe{
 	display: inline-block !important;
 	width: 270px;
 	height: 270px;
-	/* border: 2px solid orange; */
 	margin: 10px;
 }
+
+.load{
+	width:200px;
+	height: 200px;
+	border: 2px solid #ddd;
+	position: relative;
+    left: 60%;
+    bottom: 16rem;
+}
+
 
 
 .box{
@@ -93,22 +110,6 @@ li a{
   .parent:hover .viwe{
 	  visibility: visible;
   }
-
-  
-  .more{
-	  width:220px;
-	  height: 220px;
-	  border: 1px solid #ddd;
-	  display: flex;
-	  align-items: center;
-	  justify-content: center;
-	  position: relative;
-	  left: 0;
-	  right: 0;
-	  /* float: right; */
-  }
-
-
 
   .title{
 	  color: #839390;
