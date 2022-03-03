@@ -38,9 +38,18 @@ function renderData(data) {
 
     // rendering heading title
     var title = document.querySelectorAll(".title");
+	var cont = document.querySelectorAll('.parent');
+	console.log(cont);
+	var load = document.createElement('div');
+	load.textContent = 'load More';
+	load.setAttribute('class' , "box");
+	console.log(load);
+
     var h2 = document.createElement("h2");
     h2.textContent = data[i].category;
+
     title[i].appendChild(h2);
+	cont[i].appendChild(load);
   }
 }
 
@@ -54,17 +63,11 @@ function renderHTML(data) {
   for (var i = 0; i < 5; i++) {
     output += `<div class="recipe">
 					<div class="box">
-	                  <img src=${
-                      imgs[i]
-                    } width="100%" height="120px" display="block"/>
+	                  <img src=${imgs[i]} width="100%" height="120px" display="block"/>
 				      <br>
 	                  <small class="recipe-name"><b>${data[i].name}</b></small>
 				      <br>
-				      <small>${
-                       data[i].food_types.length > 3
-                     ? data[i].food_types.slice(1, 3).join(" ")
-                     : data[i].food_types
-                     }</small>
+				      <small>${data[i].food_types.length > 3? data[i].food_types.slice(1, 3).join(" "): data[i].food_types}</small>
 				      <div class="food-info">
 				      <small class="rating"> &#8902 ${data[i].ratings || 4.3}</small>
 				      <small class="deliver-time"> - ${data[i].delivery_time}</small>

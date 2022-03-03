@@ -9,11 +9,8 @@ html,body{
 
 *{
 	box-sizing: border-box;
-	/* font-family: 'ABeeZee', sans-serif; */
     font-family: 'Black And White Picture', sans-serif;
-	/* font-family: 'Dosis', sans-serif; */
 	font-family: 'Poppins', sans-serif;
-	/* font-family: 'Roboto', sans-serif; */
 }
 
 .wrapper{
@@ -60,13 +57,8 @@ li a{
 	width: 69%;
 	margin: 0 23rem;
 	padding: 3rem 1rem;
-	/* display: inline-block; */
-	/* background-color: #ddd; */
-	/* float: right; 	 */
   }
 
-  .food-catagory{
-}
 
 #popular , #expres{
 	position: relative;
@@ -100,14 +92,14 @@ li a{
 	margin:20px;
 }
 
-.parent:hover{
+.recipe:hover{
 	border: 2px solid #ddd;
 	transition: all 1s;
 	box-shadow: 2px 2px 3px #ddd;
 	transform: scale(1.2);
   }
 
-  .parent:hover .viwe{
+  .recipe:hover .viwe{
 	  visibility: visible;
   }
 
