@@ -10,9 +10,14 @@ const imgs = [
   "./images/photo-1511690743698-d9d85f2fbf38 (1).jfif",
 ];
 
+
 fetch(food_api)
   .then((res) => res.json())
-  .then((data) => renderData(data));
+  .then((data) => {
+    renderData(data);
+    // renderMore(data);
+  });
+
 
 function renderData(data) {
   for (var i = 0; i < data.length; i++) {
@@ -38,18 +43,9 @@ function renderData(data) {
 
     // rendering heading title
     var title = document.querySelectorAll(".title");
-	var cont = document.querySelectorAll('.parent');
-	console.log(cont);
-	var load = document.createElement('div');
-	load.textContent = 'load More';
-	load.setAttribute('class' , "box");
-	console.log(load);
-
     var h2 = document.createElement("h2");
     h2.textContent = data[i].category;
-
     title[i].appendChild(h2);
-	cont[i].appendChild(load);
   }
 }
 
@@ -63,31 +59,78 @@ function renderHTML(data) {
   for (var i = 0; i < 5; i++) {
     output += `<div class="recipe">
 					<div class="box">
-	                  <img src=${imgs[i]} width="100%" height="120px" display="block"/>
+	                <img src=${imgs[i]} width="100%" height="120px" display="block"/>
 				      <br>
 	                  <small class="recipe-name"><b>${data[i].name}</b></small>
 				      <br>
-				      <small>${data[i].food_types.length > 3? data[i].food_types.slice(1, 3).join(" "): data[i].food_types}</small>
-				      <div class="food-info">
+				      <small>${data[i].food_types.length > 3 ? data[i].food_types.slice(1, 3).join(" "): data[i].food_types}</small>
+				      <div class="food-info"> 
 				      <small class="rating"> &#8902 ${data[i].ratings || 4.3}</small>
 				      <small class="deliver-time"> - ${data[i].delivery_time}</small>
 				      <small class="food-price">  - ₹${data[i].price_for_two} For two </small>
 				      </div>
 				      <hr>
 					</div>
-				    <div class="viwe"><b>Quick view</b></div>
+          <div class="viwe"><b>Quick view</b></div>
 					</div>
 				  `;
   }
-
   popular.innerHTML = output;
   offer.innerHTML = output;
   expres.innerHTML = output;
   gourmets.innerHTML = output;
 }
 
-var tabs = document.querySelectorAll(".tab");
+// var torun = 5;
 
+var moreDiv = document.querySelectorAll('.load');
+
+setTimeout(function(){
+  moreDiv.forEach(elem => elem.addEventListener("click", renderMore));
+  console.log("this is cool functin even u r not using it");
+},5000)
+
+function renderMore(element){
+  fetch(food_api).then((res) => res.json()).then(data => renderElem(data , element))
+}
+
+function renderElem(data , elem){
+   var parentElement = elem.target.parentElement;
+   var whichToLoade = elem.target.dataset.target;
+
+   var result = data.map(itemList => {
+     if(itemList.category === whichToLoade){
+          renderLoad(itemList.restaurantList , parentElement)
+     }
+   })
+}
+
+function renderLoad(itemToLoad , element){
+  var output = "";
+  var sliceItems = itemToLoad.slice(4, 9);
+   for(var i=0; i<sliceItems.length;i++){
+    output += `<div class="recipe">
+                 <div class="box">
+                        <img src=${imgs[i]} width="100%" height="120px" display="block"/>
+                     <br>
+                          <small class="recipe-name"><b>${sliceItems[i].name}</b></small>
+                     <br>
+                     <small>${sliceItems[i].food_types.length > 3 ? sliceItems[i].food_types.slice(1, 3).join(" "): sliceItems[i].food_types}</small>
+                     <div class="food-info"> 
+                     <small class="rating"> &#8902 ${sliceItems[i].ratings || 4.3}</small>
+                     <small class="deliver-time"> - ${sliceItems[i].delivery_time}</small>
+                     <small class="food-price">  - ₹${sliceItems[i].price_for_two} For two </small>
+                     </div>
+                 </div>
+                <div class="viwe"><b>Quick view</b></div>
+               </div>`;
+   }
+
+   element.innerHTML = output;
+}
+
+
+var tabs = document.querySelectorAll(".tab");
 tabs.forEach((tab) =>
   tab.addEventListener("click", function () {
     tabs.forEach((tab) => tab.classList.remove("active"));
