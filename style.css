@@ -7,6 +7,10 @@ html,body{
 	overflow: auto;
 }
 
+html{
+	scroll-behavior:smooth;
+}
+
 *{
 	box-sizing: border-box;
     font-family: 'Black And White Picture', sans-serif;
@@ -147,4 +151,12 @@ li.active{
 hr{
 	height: 1px;
 	background-color: #ddd;
+}
+
+.more-items-text{
+	font-weight: bold;
+}
+
+.recipe.active{
+	display: none !important;
 }

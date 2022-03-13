@@ -1,4 +1,5 @@
 const food_api = "https://cdn.adpushup.com/reactTask.json";
+// food images
 const imgs = [
   "./images/photo-1429554513019-6c61c19ffb7e.jfif",
   "./images/photo-1432139509613-5c4255815697.jfif",
@@ -10,7 +11,7 @@ const imgs = [
   "./images/photo-1511690743698-d9d85f2fbf38 (1).jfif",
 ];
 
-
+// rendering api 
 fetch(food_api)
   .then((res) => res.json())
   .then((data) => {
@@ -19,7 +20,9 @@ fetch(food_api)
   });
 
 
+ // get resturent list by their names 
 function renderData(data) {
+  console.log(data)
   for (var i = 0; i < data.length; i++) {
     if (data[i].category === "popular brands") {
       var popular = data[i].restaurantList;
@@ -49,30 +52,32 @@ function renderData(data) {
   }
 }
 
+// getting html element 
 var popular = document.getElementById("popular");
 var offer = document.getElementById("offer");
 var expres = document.getElementById("expres");
 var gourmets = document.getElementById("gourmet");
 
+// rendering html content to show item list
 function renderHTML(data) {
   var output = "";
   for (var i = 0; i < 5; i++) {
-    output += `<div class="recipe">
-					<div class="box">
-	                <img src=${imgs[i]} width="100%" height="120px" display="block"/>
-				      <br>
+    output += `<div class="recipe" data-target=${data[i].isExlusive}>
+				      	<div class="box">
+	                  <img src=${imgs[i]} width="100%" height="120px" display="block"/>
+				            <br>
 	                  <small class="recipe-name"><b>${data[i].name}</b></small>
-				      <br>
-				      <small>${data[i].food_types.length > 3 ? data[i].food_types.slice(1, 3).join(" "): data[i].food_types}</small>
-				      <div class="food-info"> 
-				      <small class="rating"> &#8902 ${data[i].ratings || 4.3}</small>
-				      <small class="deliver-time"> - ${data[i].delivery_time}</small>
-				      <small class="food-price">  - ₹${data[i].price_for_two} For two </small>
-				      </div>
-				      <hr>
-					</div>
-          <div class="viwe"><b>Quick view</b></div>
-					</div>
+				            <br>
+				            <small>${data[i].food_types.length > 3 ? data[i].food_types.slice(1, 3).join(" "): data[i].food_types}</small>
+				            <div class="food-info"> 
+				            <small class="rating"> &#8902 ${data[i].ratings || 4.3}</small>
+				            <small class="deliver-time"> - ${data[i].delivery_time}</small>
+				            <small class="food-price">  - ₹${data[i].price_for_two} For two </small>
+				            </div>
+				            <hr>
+				      	</div>
+                <div class="viwe"><b>Quick view</b></div>
+				      	</div>
 				  `;
   }
   popular.innerHTML = output;
@@ -84,16 +89,15 @@ function renderHTML(data) {
 // var torun = 5;
 
 var moreDiv = document.querySelectorAll('.load');
-
-setTimeout(function(){
   moreDiv.forEach(elem => elem.addEventListener("click", renderMore));
-  console.log("this is cool functin even u r not using it");
-},5000)
 
+
+ // render api again for load more items 
 function renderMore(element){
   fetch(food_api).then((res) => res.json()).then(data => renderElem(data , element))
 }
 
+// render resturentlist items
 function renderElem(data , elem){
    var parentElement = elem.target.parentElement;
    var whichToLoade = elem.target.dataset.target;
@@ -105,41 +109,56 @@ function renderElem(data , elem){
    })
 }
 
+
+// render html content
 function renderLoad(itemToLoad , element){
   var output = "";
   var sliceItems = itemToLoad.slice(4, 9);
    for(var i=0; i<sliceItems.length;i++){
-    output += `<div class="recipe">
+    output += `<div class="recipe" data-target=${sliceItems[i].isExlusive}>
                  <div class="box">
-                        <img src=${imgs[i]} width="100%" height="120px" display="block"/>
+                   <img src=${imgs[i]} width="100%" height="120px" display="block"/>
                      <br>
-                          <small class="recipe-name"><b>${sliceItems[i].name}</b></small>
+                     <small class="recipe-name"><b>${sliceItems[i].name}</b></small>
                      <br>
                      <small>${sliceItems[i].food_types.length > 3 ? sliceItems[i].food_types.slice(1, 3).join(" "): sliceItems[i].food_types}</small>
                      <div class="food-info"> 
                      <small class="rating"> &#8902 ${sliceItems[i].ratings || 4.3}</small>
                      <small class="deliver-time"> - ${sliceItems[i].delivery_time}</small>
                      <small class="food-price">  - ₹${sliceItems[i].price_for_two} For two </small>
-                     </div>
+                    </div>
                  </div>
                 <div class="viwe"><b>Quick view</b></div>
                </div>`;
    }
-
+    
    element.innerHTML = output;
+  //  isExclusiveFunc();
 }
 
 
+// show active tab function
+
 var tabs = document.querySelectorAll(".tab");
 tabs.forEach((tab) =>
-  tab.addEventListener("click", function () {
+  tab.addEventListener("click", function (e) {
+    console.log(e.target)
     tabs.forEach((tab) => tab.classList.remove("active"));
     tab.classList.add("active");
-    scrollEvnt(tab);
   })
 );
 
-function scrollEvnt(tab) {
-  var elem = document.querySelector(tab.children[0].hash);
-  elem.offsetTop = 0;
+
+var exclusiveTab = document.getElementById('exclusive-tab');
+exclusiveTab.addEventListener("click" , isExclusiveFunc)
+function isExclusiveFunc(){
+  var elementToShow = document.querySelectorAll('.recipe');
+  for(var i=0; i<elementToShow.length;i++){
+      if(elementToShow[i].dataset.target === "false"){
+         elementToShow[i].classList.add('active');
+      }else{
+        elementToShow[i].classList.remove('active')
+      }
+      //  console.log(elementToShow[i]);git status
+  }
 }
