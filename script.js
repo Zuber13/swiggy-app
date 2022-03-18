@@ -23,10 +23,13 @@ var resObj = [
 ];
   
 var app = document.getElementById('app');
+
 fetch(food_api)
   .then((res) => res.json())
   .then((data) => renderApi(data));
 
+
+  // render api
 
   function renderApi(data){
     console.log(data);
@@ -39,6 +42,9 @@ fetch(food_api)
   }
 }
 
+
+// make div for load more data
+
 function loadMore(more , category){
   more.textContent = "Load More";
   more.setAttribute('class' , 'load')
@@ -46,12 +52,14 @@ function loadMore(more , category){
   app.appendChild(more);
 }
 
+// add click event to load more data
  function loadContent(){
   for(var i=0; i<resObj.length;i++){
     resObj[i].loadMore.addEventListener("click" , renderMore);
  }
 }
 
+// adding more function
  function renderMore(e){
   var matchList = e.target.dataset.target;
   for(var i=0; i<resObj.length;i++){
@@ -64,7 +72,9 @@ function loadMore(more , category){
  }
 
  loadContent();
-
+ 
+ 
+ // rendering heading text
   function renderHeading(resObj){
     var headingText = document.createElement('h2');
     headingText.setAttribute('class' , 'title')
@@ -72,6 +82,8 @@ function loadMore(more , category){
     app.appendChild(headingText);
   }
 
+
+  // rendering restuarent list 
   function renderResList(obj){
     var resturenList = obj.resList;
     var listToLoad  = obj.list;
@@ -81,8 +93,8 @@ function loadMore(more , category){
   }
 
 
+  // rendering html content
   function renderHTML(itemList , index){
-    // console.log(itemList);
     var div = document.createElement('div');
     div.setAttribute('class' , 'inline-element');
     div.innerHTML =`  <div class="parent">
@@ -110,11 +122,15 @@ function loadMore(more , category){
     app.appendChild(div);
   }
 
-  // renderResList();
-
-
-
-  // store data in object
+// this is not working now  
+var tabs = document.querySelectorAll(".tab");
+tabs.forEach((tab) =>
+  tab.addEventListener("click", function () {
+    tabs.forEach((tab) => tab.classList.remove("active"));
+    tab.classList.add("active");
+    scrollEvnt(tab);
+  })
+);
 
 
 
