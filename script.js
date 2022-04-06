@@ -13,132 +13,123 @@ const imgs = [
   "./images/istockphoto-1284690585-170667a.jpg"
 ];
 
-// rendering api 
+// restaurantList
 
-var resObj = [
-  {category : "" , resList : {} , list : 5 , loadMore : document.createElement('div')} , 
-  {category : "" , resList : {} , list : 5 , loadMore : document.createElement('div')} , 
-  {category : "" , resList : {} , list : 4 , loadMore : document.createElement('div')} , 
-  {category : "" , resList : {} , list : 5 ,}
-];
-  
 var app = document.getElementById('app');
+var listItems = document.getElementById('list-items');
+var lastChild = document.querySelectorAll('#last');
+
+var cate = [];
+var arr = [{category : 'see All'}, 
+           {category : 'Only on swiggy'}
+          ];
+console.log(arr);
 
 fetch(food_api)
-  .then((res) => res.json())
-  .then((data) => renderApi(data));
+.then((res) => res.json())
+.then((data) => {
+  data.push(arr)
+  console.log(data)
+  data.forEach(items => getData(items))
+})
 
 
-  // render api
 
-  function renderApi(data){
-    console.log(data);
-    for(var i=0; i < data.length;i++){
-      resObj[i].resList = data[i].restaurantList;
-      resObj[i].category = data[i].category;
-      renderHeading(resObj[i].category);  
-      renderResList(resObj[i]);
-      loadMore(resObj[i].loadMore , resObj[i].category);
-  }
-}
-
-
-// make div for load more data
-
-function loadMore(more , category){
-  more.textContent = "Load More";
-  more.setAttribute('class' , 'load')
-  more.setAttribute('data-target' , category);
-  app.appendChild(more);
-}
-
-// add click event to load more data
- function loadContent(){
-  for(var i=0; i<resObj.length;i++){
-    resObj[i].loadMore.addEventListener("click" , renderMore);
- }
-}
-
-// adding more function
- function renderMore(e){
-  var matchList = e.target.dataset.target;
-  for(var i=0; i<resObj.length;i++){
-    if(resObj[i].category === matchList){
-      resObj[i].list += 5;
-      console.log(resObj[i]);
-      renderResList(resObj[i]);
+function getData(items){
+  if(items.category !== 'see All' && items.category !== 'Only on swiggy')
+     items.listNumber = 5;
+     var container = document.createElement('div');
+     container.setAttribute('class' , items.category)
+     container.setAttribute('id' , items.category)
+     // appending heading category 
+     var heading = headings(items.category);
+     container.appendChild(heading);
+  
+  
+  // loop items up to the list number
+    for(var j=0; j<items.listNumber;j++){
+      var html = renderHTML(items.restaurantList[j] , j);
+      container.appendChild(html);
     }
-  }
- }
+    
+    
+    // assing more object to create a dom element
+    items.more = document.createElement('div');
+    items.more.textContent = items.restaurantList.length - j + " +More";
+    items.more.setAttribute('class' , 'more')
+    container.appendChild(items.more);
+    
+    // make click function to load more restaurents foods   
+    items.more.addEventListener("click" , function(e){
+      
+      var resList = items.restaurantList;
+      //  console.log(resList)
+      items.listNumber = 6;
+      for(var i=0; i<items.listNumber;i++){
+        var more = renderHTML(resList[i] , i);
+        container.insertBefore(more, this);
+        this.style.display = "none";
+      }
+    }) 
+    
+    
+    var list = sidebarRendering(items.category , items.restaurantList.length);
+    listItems.appendChild(list);
+    app.appendChild(container);
+}
 
- loadContent();
- 
- 
- // rendering heading text
-  function renderHeading(resObj){
-    var headingText = document.createElement('h2');
-    headingText.setAttribute('class' , 'title')
-    headingText.textContent = resObj;
-    app.appendChild(headingText);
-  }
-
-
-  // rendering restuarent list 
-  function renderResList(obj){
-    var resturenList = obj.resList;
-    var listToLoad  = obj.list;
-    for(j = 0; j < listToLoad;j++){
-      renderHTML(resturenList[j] , j);
-    }
-  }
-
-
-  // rendering html content
-  function renderHTML(itemList , index){
-    var div = document.createElement('div');
-    div.setAttribute('class' , 'inline-element');
-    div.innerHTML =`  <div class="parent">
-                      <div class="recipe" data-target=${itemList.isExlusive}>
-                      <div class="box">
-                      <img src=${imgs[index]} width="100%" height="120px" display="block"/>
-                      <br>
-                      <small class="recipe-name"><b>${itemList.name}</b></small>
-                      <br>
-                      <small>${itemList.food_types.length > 3 ? itemList.food_types.slice(1, 3).join(" "): itemList.food_types}</small>
-                      <div class="food-info"> 
-                      <small class="rating"> &#8902 ${itemList.ratings || 4.3}</small>
-                      <small class="deliver-time"> - ${itemList.delivery_time}</small>
-                      <small class="food-price">  - ₹${itemList.price_for_two} For two </small>
-                      </div>
-                      <hr>
-                      </div>
-                      <div class="viwe"><b>Quick view</b></div>
-                     </div>
-                     </div>
-                     </div>
-                     </div>
-                     `;
-
-    app.appendChild(div);
+function sidebarRendering(category , restaurantList){
+    var li = document.createElement('li');
+    li.setAttribute('class' ,'tab')
+    var aTag = document.createElement('a');
+    var span = document.createElement('small');
+    span.textContent = restaurantList + ' Restaurents';
+    aTag.href = `#${category}`;
+    aTag.textContent = category;
+    li.appendChild(aTag);
+    li.appendChild(span);
+    return li;
   }
 
-// this is not working now  
-var tabs = document.querySelectorAll(".tab");
-tabs.forEach((tab) =>
-  tab.addEventListener("click", function () {
-    tabs.forEach((tab) => tab.classList.remove("active"));
-    tab.classList.add("active");
-    scrollEvnt(tab);
-  })
-);
 
+  
 
+// making heading function to render the heading text
 
+function headings(category){
+  var h2 = document.createElement('h2');
+  h2.innerHTML = category;
+  return h2;
+}
 
+// rendering all restaurent items 
+function renderHTML(itemList , index){
+  var div = document.createElement('div');
+  div.setAttribute('class' , 'inline-element');
+  div.innerHTML =`  <div class="parent">
+                    <div class="recipe" data-target=${itemList.isExlusive}>
+                    <div class="box">
+                    <img src=${imgs[index]} width="100%" height="120px" display="block"/>
+                    <br>
+                    <small class="recipe-name"><b>${itemList.name}</b></small>
+                    <br>
+                    <small>${itemList.food_types.length > 3 ? itemList.food_types.slice(1, 3).join(" "): itemList.food_types}</small>
+                    <div class="food-info"> 
+                    <small class="rating"> &#8902 ${itemList.ratings || 4.3}</small>
+                    <small class="deliver-time"> - ${itemList.delivery_time}</small>
+                    <small class="food-price">  - ₹${itemList.price_for_two} For two </small>
+                    </div>
+                    <hr>
+                    </div>
+                    <div class="viwe"><b>Quick view</b></div>
+                   </div>
+                   </div>
+                   </div>
+                   </div>
+                   `;
 
-
-
-
+  return div;
+}
 
 
 
