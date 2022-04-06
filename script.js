@@ -19,17 +19,10 @@ var app = document.getElementById('app');
 var listItems = document.getElementById('list-items');
 var lastChild = document.querySelectorAll('#last');
 
-var cate = [];
-var arr = [{category : 'see All'}, 
-           {category : 'Only on swiggy'}
-          ];
-console.log(arr);
 
 fetch(food_api)
 .then((res) => res.json())
 .then((data) => {
-  data.push(arr)
-  console.log(data)
   data.forEach(items => getData(items))
 })
 
@@ -51,8 +44,8 @@ function getData(items){
       var html = renderHTML(items.restaurantList[j] , j);
       container.appendChild(html);
     }
-    
-    
+
+
     // assing more object to create a dom element
     items.more = document.createElement('div');
     items.more.textContent = items.restaurantList.length - j + " +More";
@@ -61,7 +54,7 @@ function getData(items){
     
     // make click function to load more restaurents foods   
     items.more.addEventListener("click" , function(e){
-      
+
       var resList = items.restaurantList;
       //  console.log(resList)
       items.listNumber = 6;
@@ -71,14 +64,14 @@ function getData(items){
         this.style.display = "none";
       }
     }) 
-    
+
     
     var list = sidebarRendering(items.category , items.restaurantList.length);
     listItems.appendChild(list);
     app.appendChild(container);
-}
-
-function sidebarRendering(category , restaurantList){
+  }
+  
+  function sidebarRendering(category , restaurantList){
     var li = document.createElement('li');
     li.setAttribute('class' ,'tab')
     var aTag = document.createElement('a');
@@ -92,6 +85,19 @@ function sidebarRendering(category , restaurantList){
   }
 
 
+  // here more list is being added
+
+  var arr   = ["Only on Swiggy" , 'See All'];
+
+  function moreLies(){
+    for(var i=0; i<arr.length;i++){
+      var liText = document.createElement('li');
+      liText.textContent = arr[i];
+      listItems.appendChild(liText);
+    }
+  }
+  
+  moreLies();
   
 
 // making heading function to render the heading text
