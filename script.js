@@ -17,21 +17,27 @@ const imgs = [
 
 var app = document.getElementById('app');
 var listItems = document.getElementById('list-items');
-var lastChild = document.querySelectorAll('#last');
+var allResturents = document.querySelector('#all-resturents');
+var parentElem = document.querySelector('#food-catogory');
+var cate = [];
+var restaurents = [];
 
-
+// fetching data
 fetch(food_api)
 .then((res) => res.json())
 .then((data) => {
-  data.forEach(items => getData(items))
+  data.forEach(res => restaurents.push(res.restaurantList))
+  data.forEach(items => getData(items));
+  catePush(data);
+  // renderingAllres(data);
 })
 
 
 
 function getData(items){
-  if(items.category !== 'see All' && items.category !== 'Only on swiggy')
-     items.listNumber = 5;
-     var container = document.createElement('div');
+  // if(items.category !== 'See All' && items.category !== 'Only on swiggy')
+  items.listNumber = 5;
+  var container = document.createElement('div');
      container.setAttribute('class' , items.category)
      container.setAttribute('id' , items.category)
      // appending heading category 
@@ -56,7 +62,6 @@ function getData(items){
     items.more.addEventListener("click" , function(e){
 
       var resList = items.restaurantList;
-      //  console.log(resList)
       items.listNumber = 6;
       for(var i=0; i<items.listNumber;i++){
         var more = renderHTML(resList[i] , i);
@@ -64,41 +69,79 @@ function getData(items){
         this.style.display = "none";
       }
     }) 
-
-    
-    var list = sidebarRendering(items.category , items.restaurantList.length);
-    listItems.appendChild(list);
     app.appendChild(container);
   }
   
+  function catePush(items){
+    items.forEach(res => {
+    var obj = {};
+    obj["category"] = res.category;
+    obj["index"] = res.restaurantList.length;
+    cate.push(obj);
+ });
+ 
+ cate.push({"category" : 'only on swiggy'} , {"category" : 'See All'});
+ rendeListItem()
+}
+
+function rendeListItem(){
+  cate.forEach(item => {
+    var list = sidebarRendering(item.category , item.index);
+    listItems.appendChild(list); 
+  })
+}
+var container_2 = document.createElement('div'); 
+// container_2.setAttribute('class' , 'allResturents');
+function renderingAllres(data){
+  for(var i=0; i<data.length;i++){
+    var allRes = data[i].restaurantList;
+    for(var j=0; j<allRes.length;j++){
+      var allRestu = renderHTML(allRes[j] , j);
+      container_2.appendChild(allRestu);
+      parentElem.appendChild(container_2);
+    }
+  }
+}
+
+// renderingAllres();
+
+
+  //rendering side bar 
+  
   function sidebarRendering(category , restaurantList){
     var li = document.createElement('li');
-    li.setAttribute('class' ,'tab')
+    li.setAttribute('class' ,'tab');
+    
     var aTag = document.createElement('a');
+    
     var span = document.createElement('small');
-    span.textContent = restaurantList + ' Restaurents';
+    span.textContent = restaurantList + ' Options';
+    
     aTag.href = `#${category}`;
     aTag.textContent = category;
-    li.appendChild(aTag);
+    
+    if(aTag.innerText == "popular brands"){
+      li.className += ' active';
+    }
+    
+    li.addEventListener('click' , getItem);
+    li.appendChild(aTag);    
     li.appendChild(span);
     return li;
   }
 
 
-  // here more list is being added
+  // making active tab funciton
+  function getItem(e){
+    document.querySelectorAll('.tab').forEach(list => {
+      list.classList.remove('active');
+  });
 
-  var arr   = ["Only on Swiggy" , 'See All'];
-
-  function moreLies(){
-    for(var i=0; i<arr.length;i++){
-      var liText = document.createElement('li');
-      liText.textContent = arr[i];
-      listItems.appendChild(liText);
-    }
+  if(e.target.innerText === "See All"){
   }
-  
-  moreLies();
-  
+
+  e.target.parentElement.classList.add('active')
+}
 
 // making heading function to render the heading text
 
@@ -136,9 +179,6 @@ function renderHTML(itemList , index){
 
   return div;
 }
-
-
-
 
 
 

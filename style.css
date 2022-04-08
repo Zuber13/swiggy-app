@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=ABeeZee&family=Black+And+White+Picture&family=Dosis:wght@200&family=Poppins:wght@100;200&family=Roboto:wght@300&display=swap');
 
 
-html,body{
+body{
 	margin: 0;
 	padding: 0;
-	overflow: auto;
+	box-sizing: border-box;
 }
 
 html{
@@ -28,15 +28,22 @@ html{
 }
 
 .container .list-menu{
-	align-items: center;
-	background: #fff;
-	width: 39%;
-	height: 100vh;
-	/* padding: 1rem; */
-	border-right: 2px solid #ddd;
-	max-width: 250px;
+	width: 30%;
+    display: inline-block;
+    height: 100vh;
 	position: fixed;
+	max-width: 250px;
 }
+
+.food-catagory{
+	width: 60%;
+    display: inline-block;
+    height: 100vh;
+	position: absolute;
+    right: 16%;
+}
+
+
 
 ul{
 	margin: 0;
@@ -48,15 +55,7 @@ ul{
 li{
 	width: 100%;
 	padding: 1rem;
-}
-
-ul li:first-child.active{
-	background-color: orange;
-}
-
-ul #childs-last{
-	color:Red;
-	order: 4 ;
+	cursor:pointer;
 }
 
 
@@ -65,12 +64,6 @@ li a{
 	color: rgba(0.0.0.9);
 	text-decoration: none;
 }
-
-  .food-catagory{
-	width: 69%;
-	margin: 0 23rem;
-	padding: 3rem 1rem;
-  }
 
 
 #popular , #expres{
