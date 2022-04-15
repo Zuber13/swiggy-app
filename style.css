@@ -19,6 +19,7 @@ html{
 
 .wrapper{
 	width: 100%;
+	position: relative;
 }
 
 .container{
@@ -43,6 +44,12 @@ html{
     right: 16%;
 }
 
+header ul{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 
 ul{
@@ -58,6 +65,12 @@ li{
 	cursor:pointer;
 }
 
+#app.active{
+	display: none;
+}
+#all-res.active{
+	display: none;
+}
 
 li a{
 	font-weight:bold;
@@ -81,7 +94,7 @@ li a{
 	margin: 10px;
 }
 
-#app > div{
+#app > div , .allResturents{
 	box-shadow: 6px 3px 10px #ddd;
 	padding: 10px 20px;
 }
@@ -176,4 +189,28 @@ hr{
 
 .recipe.active{
 	display: none !important;
+}
+
+/* media quesries to make it responsive */
+
+@media screen and (max-width : 1150px){
+
+	.food-catagory{
+		width: 80%;
+		right: 10%;
+	}
+}
+
+
+@media screen and (max-width : 800px){
+	.recipe{margin:0}
+	.recipe:hover{
+		transform: scale(1);
+	}
+}
+
+@media screen and (max-width : 740px){
+	.more{
+		transform: translateY(2%);
+	}
 }
