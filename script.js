@@ -16,7 +16,7 @@ const imgs = [
 // restaurantList
 
 var app = document.getElementById("app");
-var allRes = document.getElementById('all-res');
+var allRes = document.getElementById("all-res");
 var listItems = document.getElementById("list-items");
 var allResturents = document.querySelector("#all-resturents");
 var parentElem = document.querySelector("#food-catogory");
@@ -29,13 +29,15 @@ fetch(food_api)
   .then((res) => res.json())
   .then((data) => {
     data.forEach((res) => restaurents.push(...res.restaurantList));
+    restaurents.forEach(resturent => resturent.isExlusive == true ? exclusive.push(resturent) : "");
+    data.push({category : "only on swiggy" , restaurantList : exclusive})
     data.forEach((items) => getData(items));
-    // data.forEach(items => onExclusive(items));
     catePush(data);
   });
+
 // renderingAllres(res);
 function getData(items) {
-  items.listNumber = 5;
+  items.listNumber = items.restaurantList.length > 6 ? 5 : items.restaurantList.length;
   var container = document.createElement("div");
   container.setAttribute("class", items.category);
   container.setAttribute("id", items.category);
@@ -50,34 +52,36 @@ function getData(items) {
   }
 
   // assing more object to create a dom element
-  items.more = document.createElement("div");
-  items.more.textContent = items.restaurantList.length - j + " +More";
-  items.more.setAttribute("class", "more");
-  container.appendChild(items.more);
+  if (items.restaurantList.length > 6) {
+    items.more = document.createElement("div");
+    items.more.textContent = items.restaurantList.length - j + " +More";
+    items.more.setAttribute("class", "more");
+    container.appendChild(items.more);
 
-  // make click function to load more restaurents foods
-  let index = 5;
-  items.more.addEventListener("click", function (e) {
-    var resList = items.restaurantList;
-    let max;
-    if (resList.length > 5) {
-      // var leftToLoad = resList.length - items.listNumber; // left to load
-      this.textContent = index + " +More";
-      max = 5;
-      index += 5;
-      this.textContent = resList.length - index + "+More";
-      if (index === resList.length) {
+    // make click function to load more restaurents foods
+    items.more.addEventListener("click", function (e) {
+      var resList = items.restaurantList;
+      let nextRenderCount;
+      var leftToLoad = resList.length - items.listNumber; // left to load
+      if (leftToLoad > 7) {
+        nextRenderCount = 6;
+        this.textContent = leftToLoad - nextRenderCount + "+More";
+      } else {
+        nextRenderCount = leftToLoad;
         this.style.display = "none";
       }
-    } else {
-      items.listNumber = 5;
-    }
 
-    for (var i = items.listNumber; i < max + items.listNumber; i++) {
-      var more = renderHTML(resList[i], i);
-      container.insertBefore(more, this);
-    }
-  });
+      for (
+        var i = items.listNumber;
+        i < nextRenderCount + items.listNumber;
+        i++
+      ) {
+        var moreDiv = renderHTML(resList[i], i);
+        container.insertBefore(moreDiv, this);
+      }
+      items.listNumber = nextRenderCount + items.listNumber;
+    });
+  }
   app.appendChild(container);
 }
 
@@ -89,7 +93,7 @@ function catePush(items) {
     cate.push(obj);
   });
 
-  cate.push({ category: "only on swiggy" }, { category: "See All" });
+  cate.push({ category: "See All" });
   rendeListItem();
 }
 
@@ -128,11 +132,12 @@ function sidebarRendering(category, restaurantList) {
   }
 
   if (aTag.innerText == "See All") {
+    span.textContent =  restaurents.length + " Options";
     aTag.href = `#all-res`;
     li.id += "see-all";
   }
 
-  li.addEventListener("click", getItem);
+  li.addEventListener("click", makeActiveTab);
   li.appendChild(aTag);
   li.appendChild(span);
   return li;
@@ -141,18 +146,18 @@ function sidebarRendering(category, restaurantList) {
 var see = document.querySelector("#see-all");
 
 // making active tab funciton
-function getItem(e) {
+function makeActiveTab(e) {
   document.querySelectorAll(".tab").forEach((list) => {
     list.classList.remove("active");
   });
-  
+
   if (e.target.innerText === "See All") {
-    allRes.classList.remove('active')
-    app.classList.add('active')
+    allRes.classList.remove("active");
+    app.classList.add("active");
     renderingAllres(restaurents);
-  }else{
-    app.classList.remove('active');
-    allRes.classList.add('active');
+  } else {
+    app.classList.remove("active");
+    allRes.classList.add("active");
   }
   e.target.parentElement.classList.add("active");
 }
@@ -204,15 +209,15 @@ function renderHTML(itemList, index) {
   return div;
 }
 
-
+// console.log(restaurents)
 // function onExclusive(items){
-  // console.log('sdfg')
-  // console.log(items)
-  // console.log(items)
+// console.log('sdfg')
+// console.log(items)
+// console.log(items)
 // }
-// 
+//
 // var btn = document.getElementById("btn")
 // btn.addEventListener('click' ,function(){
-  // onExclusive(restaurents)
+// onExclusive(restaurents)
 // });
-// 
+//
